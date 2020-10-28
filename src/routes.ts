@@ -8,7 +8,6 @@ const upload = multer(uploadConfig);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
-// routes.post('/users', UserController.create);
 routes.post('/users', upload.array('images'), UserController.create);
 
 export default routes;
