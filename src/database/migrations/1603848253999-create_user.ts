@@ -20,12 +20,7 @@ export class createUser1603848253999 implements MigrationInterface {
             },
             {
               name: 'endereco',
-              type: 'varchar',
-    
-            },
-            {
-              name: 'foto',
-              type: 'decimal',
+              type: 'text',
     
             },
           ],
