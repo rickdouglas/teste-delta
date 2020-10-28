@@ -23,11 +23,19 @@ export default {
         } = request.body;
     
         const usersRepository = getRepository(User);
+
+        const requestImages = request.files as Express.Multer.File[];
+        
+        const images = requestImages.map(image => {
+            return {path: image.filename}
+        })
     
         const user = usersRepository.create({
             name,
-            endereco
+            endereco,
+            images
         });
+        
         await usersRepository.save(user);
         return response.status(201).json(user);
     }
