@@ -34,7 +34,7 @@ export default {
         
         const images = requestImages.map(image => {
             return {path: image.filename}
-        })
+        });
     
         const data = {
             name,
@@ -48,12 +48,12 @@ export default {
             endereco: Yup.string().required(),
             images: Yup.array(Yup.object().shape({
                 path: Yup.string().required()
-            }))
+            })),
         });
 
         await schema.validate(data, {
             abortEarly: false,
-        })
+        });
 
         const user = usersRepository.create(data);
         
