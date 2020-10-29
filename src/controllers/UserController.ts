@@ -2,6 +2,7 @@ import { Request, Response} from 'express'
 import {getRepository} from 'typeorm'
 import User from '../models/User'
 import userView from '../views/userView';
+import * as Yup from 'yup';
 
 export default {
     async index(request:Request, response:Response){
@@ -35,11 +36,26 @@ export default {
             return {path: image.filename}
         })
     
-        const user = usersRepository.create({
+        const data = {
             name,
             endereco,
             images
+        
+        };
+
+        const schema = Yup.object().shape({
+            name: Yup.string().required(),
+            endereco: Yup.string().required(),
+            images: Yup.array(Yup.object().shape({
+                path: Yup.string().required()
+            }))
         });
+
+        await schema.validate(data, {
+            abortEarly: false,
+        })
+
+        const user = usersRepository.create(data);
         
         await usersRepository.save(user);
         return response.status(201).json(user);
